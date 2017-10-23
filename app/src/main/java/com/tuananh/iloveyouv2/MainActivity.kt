@@ -4,30 +4,25 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
+import android.view.View
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_message.view.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnClickButtonListener {
+    private var mAlertDialog: AlertDialog? = null
     private var mIndex = 0
     private var mX1 = 0.0f
     private var mX2 = 0.0f
     private var mY = 0.0f
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        buttonYes.setOnClickListener { v ->
-            //            val builder = AlertDialog.Builder(this)
-//            builder.setMessage("Anh biết mà, <3")
-//                    .setPositiveButton("ОК") {
-//                        dialog, whichButton ->
-//                    }
-//            builder.show()
-            createDialog()
+        buttonYes.setOnClickListener {
+            createDialog("Anh biết mà, <3", R.drawable.ic_oo)
         }
 
-        buttonNo.setOnTouchListener { v, event ->
+        buttonNo.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     move()
@@ -39,25 +34,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun createDialog() {
-        val customDialog = CustomDialog(this) as LinearLayout
-        customDialog.textMessage.text = "Đã nghiện lại còn ngại !"
-        customDialog.imageIcon.setImageResource(R.drawable.ic_11)
+    private fun createDialog(message: String, idIcon: Int) {
         val builder = AlertDialog.Builder(this)
+        val customDialog = CustomDialog(this, null, this) as LinearLayout
+        customDialog.textMessage.text = message
+        customDialog.imageIcon.setImageResource(idIcon)
         builder.setView(customDialog)
-        builder.show()
+        builder.setCancelable(false)
+        mAlertDialog = builder.show()
     }
 
-    fun move() {
-        mIndex = if (mIndex < 7) mIndex + 1 else 1
-//        if (mIndex < 7) {
-//            mIndex += 1
-//        } else {
-//            mIndex = 1
-//            val builder = AlertDialog.Builder(this)
-//            builder.setView(R.layout.dialog_message)
-//            builder.show()
-//        }
+    private fun move() {
+//        mIndex = if (mIndex < 7) mIndex + 1 else 1
+        if (mIndex < 7) {
+            mIndex += 1
+            if (mIndex == 7) {
+                createDialog("Đã nghiện lại còn ngại !", R.drawable.ic_11)
+                buttonNo.visibility = View.INVISIBLE
+            }
+        } else {
+            mIndex = 1
+        }
         when (mIndex) {
             0 -> reset()
             1 -> {
@@ -95,5 +92,12 @@ class MainActivity : AppCompatActivity() {
         buttonYes.y = mY
         buttonNo.x = mX2
         buttonNo.y = mY
+        buttonNo.visibility = View.VISIBLE
+    }
+
+    override fun onDismiss() {
+        mAlertDialog?.dismiss()
+        mIndex = 0
+        reset()
     }
 }

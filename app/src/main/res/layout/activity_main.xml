@@ -25,7 +25,8 @@
         android:layout_marginLeft="@dimen/margin_padding_30"
         android:layout_marginTop="@dimen/margin_padding_130"
         android:background="@drawable/selector_button_grey"
-        android:text="Có"/>
+        android:text="Có"
+        android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/buttonNo"
@@ -36,5 +37,6 @@
         android:layout_marginRight="@dimen/margin_padding_30"
         android:layout_marginTop="@dimen/margin_padding_130"
         android:background="@drawable/selector_button_grey"
-        android:text="Không"/>
+        android:text="Không"
+        android:textAllCaps="false"/>
 </RelativeLayout>
