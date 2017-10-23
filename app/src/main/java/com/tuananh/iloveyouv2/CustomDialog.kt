@@ -15,7 +15,6 @@ class CustomDialog : LinearLayout {
     constructor(context: Context, attrs: AttributeSet?, onClickButtonListener: OnClickButtonListener?) : this(context, attrs, 0, onClickButtonListener)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, onClickButtonListener: OnClickButtonListener?) : super(context, attrs, defStyleAttr) {
         LayoutInflater.from(context).inflate(R.layout.dialog_message, this, true)
-        orientation = HORIZONTAL
         buttonHiHi.setOnClickListener {
             onClickButtonListener?.onDismiss()
         }

@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity(), OnClickButtonListener {
         buttonYes.setOnClickListener {
             createDialog("Anh biết mà, <3", R.drawable.ic_oo)
         }
-
         buttonNo.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
